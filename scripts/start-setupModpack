@@ -113,6 +113,15 @@ function handleListings() {
           --to="$MODS_OUT_DIR" \
           "$MODS_FILE"
       fi
+      if [[ "$MODS_FILE_CLIENT" ]]; then
+        ensureRemoveAllModsOff "MODS_FILE_CLIENT is set"
+        mkdir -p "$MODS_OUT_DIR"
+        mc-image-helper mcopy \
+          --file-is-listing \
+          --scope=file-list \
+          --to="$MODS_OUT_DIR/client" \
+          "$MODS_FILE_CLIENT"
+      fi
       if [[ "$PLUGINS_FILE" ]]; then
         ensureRemoveAllModsOff "PLUGINS_FILE is set"
         mkdir -p "$PLUGINS_OUT_DIR"
@@ -150,7 +159,7 @@ function handleListings() {
     fi
 
     if [[ "$MODS_FILE_CLIENT" ]]; then
-      ensureRemoveAllModsOff "$MODS_FILE_CLIENT is set"
+      ensureRemoveAllModsOff "MODS_FILE_CLIENT is set"
       mkdir -p "$outDir"
       mc-image-helper mcopy \
         --file-is-listing \
