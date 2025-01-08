@@ -6,7 +6,8 @@ set -e -o pipefail
 : "${MODS:=}"
 : "${MODS_OUT_DIR:=/data/mods}"
 : "${MODS_FILE:=}"
-: "${MODS_FILE_CLIENT:=}"
+: "${MODS_FILE_CUSTOM:=}"
+: "${MODS_FILE_OUT_DIR_CUSTOM:=/data/modsk}"
 : "${PLUGINS:=}"
 : "${PLUGINS_OUT_DIR:=/data/plugins}"
 : "${PLUGINS_FILE:=}"
@@ -84,9 +85,7 @@ fi
 function handleListings() {
   if usesMods && usesPlugins; then
       if [[ "$MODS" ]]; then
-
         ensureRemoveAllModsOff "MODS is set"
-
         mkdir -p "$MODS_OUT_DIR"
         mc-image-helper mcopy \
           --glob=*.jar \
@@ -94,6 +93,7 @@ function handleListings() {
           --to="$MODS_OUT_DIR" \
           "$MODS"
       fi
+
       if [[ "$PLUGINS" ]]; then
         ensureRemoveAllModsOff "PLUGINS is set"
         mkdir -p "$PLUGINS_OUT_DIR"
@@ -113,15 +113,17 @@ function handleListings() {
           --to="$MODS_OUT_DIR" \
           "$MODS_FILE"
       fi
-      if [[ "$MODS_FILE_CLIENT" ]]; then
-        ensureRemoveAllModsOff "MODS_FILE_CLIENT is set"
-        mkdir -p "$MODS_OUT_DIR"
+
+      if [[ "$MODS_FILE_CUSTOM" ]]; then
+        ensureRemoveAllModsOff "MODS_FILE_CUSTOM is set"
+        mkdir -p "$MODS_FILE_OUT_DIR_CUSTOM"
         mc-image-helper mcopy \
           --file-is-listing \
           --scope=file-list \
-          --to="$MODS_OUT_DIR/client" \
-          "$MODS_FILE_CLIENT"
+          --to="$MODS_FILE_OUT_DIR_CUSTOM" \
+          "$MODS_FILE_CUSTOM"
       fi
+
       if [[ "$PLUGINS_FILE" ]]; then
         ensureRemoveAllModsOff "PLUGINS_FILE is set"
         mkdir -p "$PLUGINS_OUT_DIR"
@@ -158,14 +160,14 @@ function handleListings() {
         "$MODS_FILE" "$PLUGINS_FILE"
     fi
 
-    if [[ "$MODS_FILE_CLIENT" ]]; then
-      ensureRemoveAllModsOff "MODS_FILE_CLIENT is set"
-      mkdir -p "$outDir"
+    if [[ "$MODS_FILE_CUSTOM" ]]; then
+      ensureRemoveAllModsOff "MODS_FILE_CUSTOM is set"
+      mkdir -p "$MODS_FILE_OUT_DIR_CUSTOM"
       mc-image-helper mcopy \
         --file-is-listing \
         --scope=file-list \
-        --to="$outDir/client" \
-        "$MODS_FILE_CLIENT"
+        --to="$MODS_FILE_OUT_DIR_CUSTOM" \
+        "$MODS_FILE_CUSTOM"
     fi
 
   fi
