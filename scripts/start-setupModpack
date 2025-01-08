@@ -7,7 +7,7 @@ set -e -o pipefail
 : "${MODS_OUT_DIR:=/data/mods}"
 : "${MODS_FILE:=}"
 : "${MODS_FILE_CUSTOM:=}"
-: "${MODS_FILE_OUT_DIR_CUSTOM:=/data/modsk}"
+: "${MODS_FILE_OUT_DIR_CUSTOM:=/data/mods}"
 : "${PLUGINS:=}"
 : "${PLUGINS_OUT_DIR:=/data/plugins}"
 : "${PLUGINS_FILE:=}"
